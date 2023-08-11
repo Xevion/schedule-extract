@@ -4,12 +4,32 @@
   "main": "index.ts",
   "license": "MIT",
   "description": "Extract schedule information into ICS files from Student Registration system",
-  "repository": "https://github.com/Xevion/schedule-extract",
   "author": "Xevion",
   "private": true,
   "type": "module",
+  "scripts": {
+    "test": "node ./extract.js"
+  },
   "dependencies": {
+    "@types/node": "^20.4.9",
     "cheerio": "^1.0.0-rc.12",
     "ics": "^3.2.0"
+  },
+  "keywords": [
+    "schedule",
+    "extract",
+    "nodejs",
+    "typescript",
+    "parsing",
+    "html",
+    "ics"
+  ],
+  "bugs": {
+    "url": "https://github.com/Xevion/schedule-extract/issues"
+  },
+  "homepage": "https://github.com/Xevion/schedule-extract#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xevion/schedule-extract.git"
   }
 }
