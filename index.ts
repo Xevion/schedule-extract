@@ -1,24 +1,30 @@
 import {Cheerio, Element, load} from "cheerio";
-import * as fs from "fs";
+import {readFileSync} from "fs";
+import {parse} from "date-fns";
+import {inspect} from "util";
 
-const $ = load(fs.readFileSync('list.html'));
+const $ = load(readFileSync('list.html'));
 const classes = $('#scheduleListView').children('.listViewWrapper');
+
+function getOffset(period: string) {
+    switch (period) {
+        case "AM":
+            return 0;
+        case "PM":
+            return 12;
+        default:
+            throw new Error(`Unknown period: ${period}`);
+    }
+}
 
 
 function extractDetails(source: Cheerio<Element>) {
-    source.find('div.list-view-crn-info-div > span.bold').toArray().forEach((descriptor) => {
+    const details: [string, string][] = source.find('div.list-view-crn-info-div > span.bold').toArray().map((descriptor) => {
         const descriptor_element = $(descriptor);
-
-        // console.log([descriptor_element.text(), descriptor_element.next().text()])
+        return [descriptor_element.text(), descriptor_element.next().text()]
     })
 
-    // console.log(
-    //     source.find('div.listViewMeetingInformation').children('span').last().text()
-    // )
-
-    // For some reason this div divides the information into two parts.
-    const div_information_divier = source.find('div.list-view-pillbox.ui-pillbox');
-    const timing_information = div_information_divier.next();
+    const timing_information = source.find('div.list-view-pillbox.ui-pillbox').next();
 
     const raw_time = timing_information.text();
     const match = raw_time.match(/(\d{2})\s*:\s*(\d{2})\s*(AM|PM)\D*(\d{2})\s*:\s*(\d{2})\s*(AM|PM)/)
@@ -29,22 +35,24 @@ function extractDetails(source: Cheerio<Element>) {
     const [start_hour, start_minute, end_hour, end_minute] = [1, 2, 4, 5].map((index) => parseInt(match[index]));
     const [start_period, end_period] = [match[3], match[6]];
 
+    const raw_date = source.find('span.meetingTimes').text();
+    const [start_date, end_date] = raw_date.split("--").map((date) => parse(date.trim(), "MM/dd/yyyy", new Date()));
+
     return {
-        start: {minute: start_minute, hour: start_hour, period: start_period},
-        end: {minute: end_minute, hour: end_hour, period: end_period},
+        date: {
+            start: start_date,
+            end: end_date,
+        },
+        time: {
+            start: {minute: start_minute, hour: start_hour + getOffset(start_period)},
+            end: {minute: end_minute, hour: end_hour + getOffset(end_period)},
+        },
         days: source.find('div.ui-pillbox-summary.screen-reader').text().split(",").map((day) => day.trim()),
         name: source.find('span.list-view-course-title > a.section-details-link').text().trim()
     };
 }
 
 console.log(`${classes.length} classes identified.`);
-
-classes.toArray().forEach((element) => {
-    console.log(extractDetails(
-        $(element)
-    ))
-});
-
-// console.log(classes.toArray().map((element) => element.attribs.class))
-
-// console.log(`First class: ${extractDetails(classes)}`);
+console.log(
+    inspect(classes.toArray().map((element) => extractDetails($(element))), {colors: true, depth: null})
+);
