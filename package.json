@@ -1,0 +1,15 @@
+{
+  "name": "schedule-extract",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "license": "MIT",
+  "description": "Extract schedule information into ICS files from Student Registration system",
+  "repository": "https://github.com/Xevion/schedule-extract",
+  "author": "Xevion",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "ics": "^3.2.0"
+  }
+}
