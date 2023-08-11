@@ -2,9 +2,31 @@ import {Cheerio, Element, load} from "cheerio";
 import {readFileSync} from "fs";
 import {parse} from "date-fns";
 import {inspect} from "util";
+import fetch from "node-fetch";
+import {z} from "zod";
 
 const $ = load(readFileSync('list.html'));
 const classes = $('#scheduleListView').children('.listViewWrapper');
+
+const subject_schema = z.object({
+    code: z.string(),
+    description: z.string(),
+});
+
+
+const subjects = await z.array(subject_schema).parseAsync(
+    await fetch(
+        'https://ssbprod.utsa.edu/StudentRegistrationSsb/ssb/classSearch/get_subject' + '?' + new URLSearchParams({
+            "searchTerm": "",
+            "term": "202410",
+            "offset": "1",
+            "max": "999"
+        })
+    ).then((response) => {
+        return response.json();
+    })
+);
+
 
 function getOffset(period: string) {
     switch (period) {
@@ -38,7 +60,10 @@ function extractDetails(source: Cheerio<Element>) {
     const raw_date = source.find('span.meetingTimes').text();
     const [start_date, end_date] = raw_date.split("--").map((date) => parse(date.trim(), "MM/dd/yyyy", new Date()));
 
+    const identifier = source.find('span.list-view-subj-course-section').text();
+
     return {
+        identifier,
         date: {
             start: start_date,
             end: end_date,
