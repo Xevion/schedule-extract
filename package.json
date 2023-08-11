@@ -7,8 +7,9 @@
   "author": "Xevion",
   "private": true,
   "scripts": {
-    "test": "ts-node ./index.ts"
+    "test": "ts-node-esm ./index.ts"
   },
+  "type": "module",
   "compilerOptions": {
     "esModuleInterop": true
   },
