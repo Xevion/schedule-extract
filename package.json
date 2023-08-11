@@ -1,6 +1,6 @@
 {
   "name": "schedule-extract",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.ts",
   "license": "MIT",
   "description": "Extract schedule information into ICS files from Student Registration system",
@@ -31,7 +31,12 @@
     "typescript",
     "parsing",
     "html",
-    "ics"
+    "ics",
+    "web-extension",
+    "firefox",
+    "chrome",
+    "browser",
+    "student"
   ],
   "bugs": {
     "url": "https://github.com/Xevion/schedule-extract/issues"
