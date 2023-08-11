@@ -2,16 +2,21 @@ import {Cheerio, Element, load} from "cheerio";
 import {readFileSync} from "fs";
 import {parse} from "date-fns";
 import {inspect} from "util";
+import {decode} from "html-entities";
 import fetch from "node-fetch";
 import {z} from "zod";
 
 const $ = load(readFileSync('list.html'));
 const classes = $('#scheduleListView').children('.listViewWrapper');
 
+const name_pattern = /(.+) (\d{4}) Section (\d+)/;
+
 const subject_schema = z.object({
     code: z.string(),
-    description: z.string(),
+    description: z.string().transform((v) => decode(v, {level: 'all'})),
 });
+
+type Subject = z.infer<typeof subject_schema>;
 
 
 const subjects = await z.array(subject_schema).parseAsync(
@@ -26,6 +31,8 @@ const subjects = await z.array(subject_schema).parseAsync(
         return response.json();
     })
 );
+
+const subject_by_name = new Map(subjects.map((subject) => [subject.description, subject]));
 
 
 function getOffset(period: string) {
@@ -61,9 +68,24 @@ function extractDetails(source: Cheerio<Element>) {
     const [start_date, end_date] = raw_date.split("--").map((date) => parse(date.trim(), "MM/dd/yyyy", new Date()));
 
     const identifier = source.find('span.list-view-subj-course-section').text();
+    const name_match = name_pattern.exec(identifier);
+    if (name_match === null) {
+        throw new Error(`Could not parse identifier: ${identifier}`);
+    }
+
+    const [subject_name, code, section] = name_match.slice(1);
+    const subject = subject_by_name.get(subject_name);
+    if (subject === undefined) {
+        throw new Error(`Unknown subject: ${subject_name}`);
+    }
 
     return {
-        identifier,
+        identifier: {
+            subject,
+            code: code,
+            section: section,
+            crn: null,
+        },
         date: {
             start: start_date,
             end: end_date,
