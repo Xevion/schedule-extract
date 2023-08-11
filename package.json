@@ -6,14 +6,18 @@
   "description": "Extract schedule information into ICS files from Student Registration system",
   "author": "Xevion",
   "private": true,
-  "type": "module",
   "scripts": {
-    "test": "node ./extract.js"
+    "test": "ts-node ./index.ts"
+  },
+  "compilerOptions": {
+    "esModuleInterop": true
   },
   "dependencies": {
     "@types/node": "^20.4.9",
     "cheerio": "^1.0.0-rc.12",
-    "ics": "^3.2.0"
+    "ics": "^3.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   },
   "keywords": [
     "schedule",
