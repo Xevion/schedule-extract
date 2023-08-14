@@ -1,13 +1,14 @@
 {
   "name": "schedule-extract",
   "version": "0.0.2",
-  "main": "index.ts",
   "license": "MIT",
   "description": "Extract schedule information into ICS files from Student Registration system",
-  "author": "Xevion",
+  "author": "ryan@walters.to",
   "private": true,
   "scripts": {
-    "test": "ts-node-esm ./index.ts"
+    "build": "webpack",
+    "firefox": "webpack --watch --config ./webpack.firefox.mjs --node-env=DEVELOPMENT && web-ext run -s ./dist/ --firefox-profile=web-ext-profile",
+    "test": "ts-node-esm src/old.ts"
   },
   "type": "module",
   "compilerOptions": {
@@ -22,6 +23,7 @@
     "node-fetch": "^3.3.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
     "zod": "^3.21.4"
   },
   "keywords": [
@@ -45,5 +47,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Xevion/schedule-extract.git"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "ts-loader": "^9.4.4",
+    "web-ext-plugin": "^2.8.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.9.0"
   }
 }

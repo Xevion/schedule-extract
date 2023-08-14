@@ -22,6 +22,8 @@ A WebExtension for extracting class schedule data into ICS files.
 
 ## Support
 
+https://ssbprod.utsa.edu/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_term=202410&startDatepicker=&endDatepicker=&uniqueSessionId=l5fyg1691785942875&pageOffset=0&pageMaxSize=20520395&sortColumn=subjectDescription&sortDirection=asc
+
 This application targets UTSA's 'Banner Student Registration Self Service', v9.26.1.
 
 Until other class schedule systems are identified, this will be the only supported system & version.

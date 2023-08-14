@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Class Schedule ICS",
+  "version": "X.Y.Z",
+  "description": "Adds a button to the UTSA class schedule to download an ICS file for the selected classes.",
+  "icons": {
+    "32": "svg/icon.svg",
+    "48": "svg/icon.svg",
+    "64": "svg/icon.svg",
+    "96": "svg/icon.svg"
+  },
+  "permissions": [
+    "https://ssbprod.utsa.edu/StudentRegistrationSsb/ssb/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://ssbprod.utsa.edu/StudentRegistrationSsb/ssb/*"
+      ],
+      "js": [
+        "main.js"
+      ],
+      "css": [
+      ]
+    }
+  ]
+}
