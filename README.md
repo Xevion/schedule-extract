@@ -29,3 +29,17 @@ This application targets UTSA's 'Banner Student Registration Self Service', v9.2
 Until other class schedule systems are identified, this will be the only supported system & version.
 
 Current version can be found [here](https://ssbprod.utsa.edu/StudentRegistrationSsb/ssb/about/).
+
+## Notes
+
+- https://github.com/lusito/forget-me-not
+- https://github.com/Lusito/webextension-polyfill-ts
+- https://github.com/mozilla/webextension-polyfill
+- https://github.com/pablooliva/neveragain/blob/master/package.json
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings
+- https://extensionworkshop.com/documentation/develop/browser-extension-development-tools/
+- https://github.com/hiikezoe/web-ext-webpack-plugin/blob/master/README.md
+- https://github.com/aeksco/react-typescript-web-extension-starter/blob/main/webpack.dev.js
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json#list_of_manifest.json_keys
+- https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings
+- https://github.com/fstanis/webextensions-webpack-boilerplate/blob/master/src/manifest.json
